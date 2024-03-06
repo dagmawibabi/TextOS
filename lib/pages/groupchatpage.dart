@@ -1,10 +1,9 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:flutter/material.dart';
-import 'package:textos/pages/directMessagePage.dart';
 
-class ChatPage extends StatefulWidget {
-  const ChatPage({
+import 'directmessagepage.dart';
+
+class GroupChat extends StatefulWidget {
+  const GroupChat({
     super.key,
     required this.bottomNavBar,
   });
@@ -12,10 +11,10 @@ class ChatPage extends StatefulWidget {
   final BottomAppBar bottomNavBar;
 
   @override
-  State<ChatPage> createState() => _ChatPageState();
+  State<GroupChat> createState() => _GroupChatState();
 }
 
-class _ChatPageState extends State<ChatPage>
+class _GroupChatState extends State<GroupChat>
     with SingleTickerProviderStateMixin {
   TabController? tabController;
 
@@ -50,49 +49,6 @@ class _ChatPageState extends State<ChatPage>
       "name": "sopthhad",
       "text": "igia afh adhgad agda 9dag d idi agdig i adiii gdagi aidg.",
       "new": false,
-    },
-  ];
-  List sampleGroups = [
-    {
-      "name": "fterdev",
-      "text": "dabs udag hiagdi gdigia iuabdi gaidg  aidig.",
-      "new": false,
-    },
-    {
-      "name": "codenight",
-      "text": "Loriagui adiuai digdi ag hiagdi gdigia.",
-      "new": false,
-    },
-    {
-      "name": "emvc",
-      "text": "agu akd ioudag hiagdi gdigia aiudbia agd diuga igad  ida daid.",
-      "new": true,
-    },
-    {
-      "name": "flutterdev",
-      "text": "dabs udag hiagdi gdigia iuabdi gaidg  aidig.",
-      "new": false,
-    },
-    {
-      "name": "spiritual",
-      "text": "igia afh adhgad agda 9dag d aidg.",
-      "new": true,
-    },
-    {
-      "name": "dgaiiaig diua",
-      "text": "aiufd diuah aiudg o agida iu giuadiuag.",
-      "new": true,
-    },
-    {
-      "name": "diua aii",
-      "text":
-          "igia afh adhgad agda 9dag d idi agdig i adiii gdagi aiidbai digag  dga dg.",
-      "new": false,
-    },
-    {
-      "name": "dgaiiaig diua",
-      "text": "aiufd diuah aiudg o agida iu giuadiuag.",
-      "new": true,
     },
   ];
 
@@ -233,80 +189,13 @@ class _ChatPageState extends State<ChatPage>
                         ),
                     ],
                   ),
-                  Column(
-                    children: [
-                      for (var i in sampleGroups)
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DirectMessagePage(
-                                  message: i,
-                                ),
-                              ),
-                            );
-                          },
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 25.0,
-                              vertical: 10.0,
-                            ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text(
-                                            i["name"].toString().toLowerCase(),
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 15.0,
-                                            ),
-                                          ),
-                                          Text(
-                                            " — ${DateTime.now().hour.toString().padLeft(2, "0")}:${DateTime.now().minute.toString().padLeft(2, "0")}",
-                                            style: TextStyle(
-                                              color: Colors.grey[600]!,
-                                              fontSize: 13.0,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(height: 5.0),
-                                      Text(
-                                        i["text"].toString().toLowerCase(),
-                                        style: TextStyle(
-                                          color: i["new"] == true
-                                              ? Colors.grey[500]!
-                                              : Colors.grey[700]!,
-                                          fontSize: 15.0,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  width: 15.0,
-                                  // color: Colors.red,
-                                  padding: EdgeInsets.only(left: 10.0),
-                                  child: Text(
-                                    i["new"] == true ? "•" : "",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                    ],
+                  Center(
+                    child: Text(
+                      "GROUPS",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                   Center(
                     child: Text(

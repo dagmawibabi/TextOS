@@ -342,7 +342,7 @@ class _DirectMessagePageState extends State<DirectMessagePage>
                   ],
                 ),
               ),
-              currentPage == 0
+              pageIndex == 0
                   ? Container(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: TextField(
