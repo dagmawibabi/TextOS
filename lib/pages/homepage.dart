@@ -31,12 +31,14 @@ class _HomePageState extends State<HomePage>
 
   int currentPage = 0;
 
+  bool gotFeed = false;
   void getFeed() async {
     var response = await dio.get("https://jsonplaceholder.typicode.com/users");
     users = response.data;
     users.add(users);
     var response2 = await dio.get("https://jsonplaceholder.typicode.com/posts");
     posts = response2.data;
+    gotFeed = true;
     setState(() {});
   }
 
@@ -92,8 +94,9 @@ class _HomePageState extends State<HomePage>
   // initState
   @override
   void initState() {
-    askPermission();
-    getLocation();
+    // askPermission();
+    // getLocation();
+    getWeather();
     getNews();
     getFeed();
     tabController = TabController(length: 3, vsync: this);
@@ -269,404 +272,471 @@ class _HomePageState extends State<HomePage>
                         ),
                       ],
                     ),
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.84,
-                      child: TabBarView(
-                        controller: tabController,
-                        children: [
-                          ListView(
-                            children: [
-                              for (var i = 0; i < users.length - 1; i++)
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 25.0,
-                                    vertical: 10.0,
-                                  ),
-                                  margin: EdgeInsets.only(bottom: 15.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      // SizedBox(height: 5.0),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Text(
-                                                users[i]["username"]
-                                                    .toString()
-                                                    .toLowerCase(),
-                                                style: TextStyle(
-                                                  color: Colors.grey[600]!,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 14.0,
-                                                ),
-                                              ),
-                                              Text(
-                                                " — ${DateTime.now().hour.toString().padLeft(2, "0")}:${DateTime.now().minute.toString().padLeft(2, "0")}",
-                                                style: TextStyle(
-                                                  color: Colors.grey[600]!,
-                                                  fontSize: 13.0,
-                                                ),
-                                              ),
-                                              Text(
-                                                " — more",
-                                                style: TextStyle(
-                                                  color: Colors.grey[600]!,
-                                                  fontSize: 13.0,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(height: 5.0),
-                                      Text(
-                                        posts[i]["title"]
-                                            .toString()
-                                            .toLowerCase(),
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          // fontWeight: FontWeight.bold,
-                                          fontSize: 16.0,
-                                        ),
-                                      ),
-                                      SizedBox(height: 10.0),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            "like",
-                                            style: TextStyle(
-                                              color: Colors.grey[600]!,
-                                              fontSize: 15.0,
-                                              // fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          SizedBox(width: 20.0),
-                                          Text(
-                                            "comment",
-                                            style: TextStyle(
-                                              color: Colors.grey[600]!,
-                                              fontSize: 15.0,
-                                              // fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          SizedBox(width: 20.0),
-                                          Text(
-                                            "repost",
-                                            style: TextStyle(
-                                              color: Colors.grey[600]!,
-                                              fontSize: 15.0,
-                                              // fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          SizedBox(width: 20.0),
-                                          Text(
-                                            "save",
-                                            style: TextStyle(
-                                              color: Colors.grey[600]!,
-                                              fontSize: 15.0,
-                                              // fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              SizedBox(height: 200.0)
-                            ],
-                          ),
-                          ListView(
-                            children: [
-                              for (var i = 0; i < users.length - 1; i++)
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 25.0,
-                                    vertical: 10.0,
-                                  ),
-                                  margin: EdgeInsets.only(bottom: 15.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      // SizedBox(height: 5.0),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Text(
-                                                users[i]["username"]
-                                                    .toString()
-                                                    .toLowerCase(),
-                                                style: TextStyle(
-                                                  color: Colors.grey[600]!,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 14.0,
-                                                ),
-                                              ),
-                                              Text(
-                                                " — ${DateTime.now().hour.toString().padLeft(2, "0")}:${DateTime.now().minute.toString().padLeft(2, "0")}",
-                                                style: TextStyle(
-                                                  color: Colors.grey[600]!,
-                                                  fontSize: 13.0,
-                                                ),
-                                              ),
-                                              Text(
-                                                " — more",
-                                                style: TextStyle(
-                                                  color: Colors.grey[600]!,
-                                                  fontSize: 13.0,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(height: 5.0),
-                                      Text(
-                                        posts[i + 50]["title"]
-                                            .toString()
-                                            .toLowerCase(),
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          // fontWeight: FontWeight.bold,
-                                          fontSize: 16.0,
-                                        ),
-                                      ),
-                                      SizedBox(height: 10.0),
-                                      Row(
-                                        //   mainAxisAlignment:
-                                        //       MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "like",
-                                            style: TextStyle(
-                                              color: Colors.grey[600]!,
-                                              fontSize: 15.0,
-                                              // fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          SizedBox(width: 20.0),
-                                          Text(
-                                            "comment",
-                                            style: TextStyle(
-                                              color: Colors.grey[600]!,
-                                              fontSize: 15.0,
-                                              // fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          SizedBox(width: 20.0),
-                                          Text(
-                                            "repost",
-                                            style: TextStyle(
-                                              color: Colors.grey[600]!,
-                                              fontSize: 15.0,
-                                              // fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          SizedBox(width: 20.0),
-                                          Text(
-                                            "save",
-                                            style: TextStyle(
-                                              color: Colors.grey[600]!,
-                                              fontSize: 15.0,
-                                              // fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              SizedBox(height: 200.0)
-                            ],
-                          ),
-                          ListView(
-                            children: [
-                              Container(
-                                // height: 100.0,
-                                padding: EdgeInsets.symmetric(horizontal: 20.0),
-                                child: Column(
+                    gotFeed == false
+                        ? Container(
+                            height: 300.0,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            ),
+                          )
+                        : Container(
+                            height: MediaQuery.of(context).size.height * 0.84,
+                            child: TabBarView(
+                              controller: tabController,
+                              children: [
+                                ListView(
                                   children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Column(
+                                    for (var i = 0; i < users.length - 1; i++)
+                                      Container(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 25.0,
+                                          vertical: 10.0,
+                                        ),
+                                        margin: EdgeInsets.only(bottom: 15.0),
+                                        child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              "${weather["current"]["condition"]["text"]} degrees",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 17.0,
-                                              ),
+                                            // SizedBox(height: 5.0),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      users[i]["username"]
+                                                          .toString()
+                                                          .toLowerCase(),
+                                                      style: TextStyle(
+                                                        color:
+                                                            Colors.grey[600]!,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 14.0,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      " — ${DateTime.now().hour.toString().padLeft(2, "0")}:${DateTime.now().minute.toString().padLeft(2, "0")}",
+                                                      style: TextStyle(
+                                                        color:
+                                                            Colors.grey[600]!,
+                                                        fontSize: 13.0,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      " — more",
+                                                      style: TextStyle(
+                                                        color:
+                                                            Colors.grey[600]!,
+                                                        fontSize: 13.0,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
                                             SizedBox(height: 5.0),
+                                            Text(
+                                              posts[i]["title"]
+                                                  .toString()
+                                                  .toLowerCase(),
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                // fontWeight: FontWeight.bold,
+                                                fontSize: 16.0,
+                                              ),
+                                            ),
+                                            SizedBox(height: 10.0),
                                             Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  "${weather["location"]["name"]}, ",
+                                                  "like",
                                                   style: TextStyle(
-                                                    color: Colors.grey[500]!,
-                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.grey[600]!,
+                                                    fontSize: 15.0,
+                                                    // fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
-                                                SizedBox(width: 5.0),
+                                                SizedBox(width: 20.0),
                                                 Text(
-                                                  weather["location"]["country"]
-                                                      .toString(),
+                                                  "comment",
                                                   style: TextStyle(
-                                                    color: Colors.grey[600],
+                                                    color: Colors.grey[600]!,
+                                                    fontSize: 15.0,
+                                                    // fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                SizedBox(width: 20.0),
+                                                Text(
+                                                  "repost",
+                                                  style: TextStyle(
+                                                    color: Colors.grey[600]!,
+                                                    fontSize: 15.0,
+                                                    // fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                SizedBox(width: 20.0),
+                                                Text(
+                                                  "save",
+                                                  style: TextStyle(
+                                                    color: Colors.grey[600]!,
+                                                    fontSize: 15.0,
+                                                    // fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
                                               ],
                                             ),
                                           ],
                                         ),
-                                        Container(
-                                          color: Colors.black,
-                                          child: Text(
-                                            "${weather["current"]["temp_c"]} °",
-                                            style: TextStyle(
-                                              fontSize: 35.0,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    SizedBox(height: 10.0),
-                                    gotWeather == false
-                                        ? Container()
-                                        : Container(
-                                            height: 200.0,
-                                            child: ListView(
+                                      ),
+                                    SizedBox(height: 200.0)
+                                  ],
+                                ),
+                                ListView(
+                                  children: [
+                                    for (var i = 0; i < users.length - 1; i++)
+                                      Container(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 25.0,
+                                          vertical: 10.0,
+                                        ),
+                                        margin: EdgeInsets.only(bottom: 15.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            // SizedBox(height: 5.0),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
-                                                for (var i
-                                                    in weather["forecast"]
-                                                            ["forecastday"][0]
-                                                        ["hour"])
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        i["time"]
-                                                            .toString()
-                                                            .substring(11),
-                                                        style: TextStyle(
-                                                          color:
-                                                              Colors.grey[600]!,
-                                                        ),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      users[i]["username"]
+                                                          .toString()
+                                                          .toLowerCase(),
+                                                      style: TextStyle(
+                                                        color:
+                                                            Colors.grey[600]!,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 14.0,
                                                       ),
-                                                      Text(
-                                                        i["condition"]["text"]
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                          color:
-                                                              Colors.grey[500]!,
-                                                        ),
+                                                    ),
+                                                    Text(
+                                                      " — ${DateTime.now().hour.toString().padLeft(2, "0")}:${DateTime.now().minute.toString().padLeft(2, "0")}",
+                                                      style: TextStyle(
+                                                        color:
+                                                            Colors.grey[600]!,
+                                                        fontSize: 13.0,
                                                       ),
-                                                      Text(
-                                                        i["temp_c"]
-                                                            .toString()
-                                                            .padRight(3, ".0"),
-                                                        style: TextStyle(
-                                                          color:
-                                                              Colors.grey[600]!,
-                                                        ),
+                                                    ),
+                                                    Text(
+                                                      " — more",
+                                                      style: TextStyle(
+                                                        color:
+                                                            Colors.grey[600]!,
+                                                        fontSize: 13.0,
                                                       ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                  ],
+                                                ),
                                               ],
                                             ),
-                                          ),
-                                    gotNews == false
-                                        ? Container()
-                                        : Container(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                            SizedBox(height: 5.0),
+                                            Text(
+                                              posts[i + 50]["title"]
+                                                  .toString()
+                                                  .toLowerCase(),
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                // fontWeight: FontWeight.bold,
+                                                fontSize: 16.0,
+                                              ),
+                                            ),
+                                            SizedBox(height: 10.0),
+                                            Row(
+                                              //   mainAxisAlignment:
+                                              //       MainAxisAlignment.spaceBetween,
                                               children: [
-                                                SizedBox(height: 25.0),
                                                 Text(
-                                                  "Trending".toString(),
+                                                  "like",
                                                   style: TextStyle(
-                                                    fontSize: 22.0,
-                                                    fontWeight: FontWeight.bold,
                                                     color: Colors.grey[600]!,
+                                                    fontSize: 15.0,
+                                                    // fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
-                                                SizedBox(height: 10.0),
-                                                for (var i in news)
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                      bottom: 30.0,
-                                                    ),
-                                                    child: Column(
+                                                SizedBox(width: 20.0),
+                                                Text(
+                                                  "comment",
+                                                  style: TextStyle(
+                                                    color: Colors.grey[600]!,
+                                                    fontSize: 15.0,
+                                                    // fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                SizedBox(width: 20.0),
+                                                Text(
+                                                  "repost",
+                                                  style: TextStyle(
+                                                    color: Colors.grey[600]!,
+                                                    fontSize: 15.0,
+                                                    // fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                SizedBox(width: 20.0),
+                                                Text(
+                                                  "save",
+                                                  style: TextStyle(
+                                                    color: Colors.grey[600]!,
+                                                    fontSize: 15.0,
+                                                    // fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    SizedBox(height: 200.0)
+                                  ],
+                                ),
+                                ListView(
+                                  children: [
+                                    Container(
+                                      // height: 100.0,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20.0),
+                                      child: Column(
+                                        children: [
+                                          gotWeather == false
+                                              ? Container()
+                                              : Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Column(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
                                                         Text(
-                                                          i["title"].toString(),
+                                                          "${weather["current"]["condition"]["text"]} degrees",
                                                           style: TextStyle(
                                                             color: Colors.white,
-                                                          ),
-                                                        ),
-                                                        SizedBox(height: 5.0),
-                                                        Text(
-                                                          i["description"]
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                            color: Colors
-                                                                .grey[600]!,
-                                                          ),
-                                                        ),
-                                                        SizedBox(height: 5.0),
-                                                        Text(
-                                                          i["author"]
-                                                                  .toString() +
-                                                              " — " +
-                                                              i["publishedAt"]
-                                                                  .toString()
-                                                                  .substring(
-                                                                      00, 10),
-                                                          style: TextStyle(
                                                             fontWeight:
                                                                 FontWeight.bold,
-                                                            color: Colors
-                                                                .grey[600]!,
+                                                            fontSize: 17.0,
                                                           ),
+                                                        ),
+                                                        SizedBox(height: 5.0),
+                                                        Row(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              "${weather["location"]["name"]}, ",
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .grey[500]!,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                                width: 5.0),
+                                                            Text(
+                                                              weather["location"]
+                                                                      [
+                                                                      "country"]
+                                                                  .toString(),
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .grey[600],
+                                                              ),
+                                                            ),
+                                                          ],
                                                         ),
                                                       ],
                                                     ),
+                                                    Container(
+                                                      color: Colors.black,
+                                                      child: Text(
+                                                        "${weather["current"]["temp_c"]} °",
+                                                        style: TextStyle(
+                                                          fontSize: 35.0,
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                          SizedBox(height: 10.0),
+                                          gotWeather == false
+                                              ? Container(
+                                                  height: 300.0,
+                                                  child: Center(
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      color: Colors.white,
+                                                    ),
                                                   ),
-                                              ],
-                                            ),
-                                          ),
+                                                )
+                                              : Container(
+                                                  height: 200.0,
+                                                  child: ListView(
+                                                    children: [
+                                                      for (var i in weather[
+                                                                  "forecast"]
+                                                              ["forecastday"][0]
+                                                          ["hour"])
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Text(
+                                                              i["time"]
+                                                                  .toString()
+                                                                  .substring(
+                                                                      11),
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .grey[600]!,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              i["condition"]
+                                                                      ["text"]
+                                                                  .toString(),
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .grey[500]!,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              i["temp_c"]
+                                                                  .toString()
+                                                                  .padRight(
+                                                                      3, ".0"),
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .grey[600]!,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                    ],
+                                                  ),
+                                                ),
+                                          gotNews == false
+                                              ? Container(
+                                                  height: 300.0,
+                                                  child: Center(
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                )
+                                              : Container(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      SizedBox(height: 25.0),
+                                                      Text(
+                                                        "Trending".toString(),
+                                                        style: TextStyle(
+                                                          fontSize: 22.0,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color:
+                                                              Colors.grey[600]!,
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 10.0),
+                                                      for (var i in news)
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                            bottom: 30.0,
+                                                          ),
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                i["title"]
+                                                                    .toString(),
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                  height: 5.0),
+                                                              Text(
+                                                                i["description"]
+                                                                    .toString(),
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      600]!,
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                  height: 5.0),
+                                                              Text(
+                                                                i["author"]
+                                                                        .toString() +
+                                                                    " — " +
+                                                                    i["publishedAt"]
+                                                                        .toString()
+                                                                        .substring(
+                                                                            00,
+                                                                            10),
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      600]!,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                    ],
+                                                  ),
+                                                ),
+                                        ],
+                                      ),
+                                    ),
                                   ],
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
-                    ),
                   ],
                 ),
                 bottomNavigationBar: bottomNavBar,
